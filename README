@@ -1,0 +1,82 @@
+Voici un exemple de README complet pour lancer une application Flask avec une base de données PostgreSQL :
+
+---
+
+# Application Flask avec PostgreSQL
+
+Cette application Flask est conçue pour être exécutée avec une base de données PostgreSQL. Elle fournit un exemple simple d'API REST pour gérer les comptes utilisateur.
+
+## Prérequis
+
+- Python 3.x installé sur votre système.
+- PostgreSQL installé et configuré localement ou accessible via une URL de connexion.
+- Un environnement virtuel est recommandé pour isoler les dépendances de ce projet.
+
+## Installation
+
+1. Clonez ce dépôt :
+
+```bash
+git clone  https://github.com/MaximeAto/collabinnovate_backend.git
+cd nom_du_projet
+```
+
+2. Créez un environnement virtuel et activez-le :
+
+```bash
+python -m venv venv
+source venv/bin/activate      # Sous Linux/macOS
+venv\Scripts\activate         # Sous Windows
+```
+
+3. Installez les dépendances requises :
+
+```bash
+pip install -r requirements.txt
+```
+
+## Configuration
+
+1. Assurez-vous d'avoir une base de données PostgreSQL ou Mysql nommé mercatodb.
+
+  - si vous utilisé Mysql veillez décommenter la configuration Mysql à la ligne 25 du fichier __init__.py du dossier collabinnovaye.
+    commenté ensuite la configuration Postgresql à la ligne 27.
+    en suite décommenter la ligne 19 et commenter la ligne 18
+    en suite allez dans le fichier config.py et verifier les configurations de connexion à votre base de données mysql
+
+## Initialisation de la base de données
+
+Taper la commande 
+
+```bash
+flask db init
+```
+Ensuite si à chaque fois vous modifier le schéma de la base de donnéer faudrait mettre à jour ces modification dans la base de données deouis le SGBD avec les commandes suivantes
+```bash
+flask db migrate -m "message description de la migration"
+flask db upgrade
+```
+
+## Lancement de l'application
+
+Pour lancer l'application, exécutez la commande suivante :
+
+```bash
+python app.py
+```
+L'application sera accessible à l'adresse `http://localhost:5000`.
+
+## A chaque modification 
+
+- Si lors de votre travail vous vouler installer un bibliothèque, svp veillez verifier que vous êtes dans l'environnement virtuel
+- En suite avant de push votre travail dans le dépot, avant, taper la commande ce-dessous, elle va permettre de mettre à jour les dépendance du projet :
+
+```bash
+pip freeze > requirements.tx
+```
+
+## Licence
+
+Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus d'informations.
+
+---

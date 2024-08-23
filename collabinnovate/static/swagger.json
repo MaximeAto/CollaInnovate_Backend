@@ -1,0 +1,1277 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "CollabInnovate API",
+    "description": "CollabInnovate est une plateforme destinée à faciliter la collaboration entre les petites et moyennes entreprises (PME) et les startups. Le but du projet est de permettre aux PME de soumettre leurs problèmes et de recevoir des solutions innovantes proposées par les startups.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Everything about your users"
+    },
+    {
+      "name": "problem",
+      "description": "Operations about problem"
+    },
+    {
+      "name": "solution",
+      "description": "Operations about solution"
+    },
+    {
+      "name": "contribution",
+      "description": "Operations about contribution"
+    },
+    {
+      "name": "auth",
+      "description": "All about auth"
+    },
+    {
+      "name": "invitation",
+      "description": "Operations about invitation"
+    },
+    {
+      "name": "notification",
+      "description": "All paths of notication"
+    }
+  ],
+  "paths": {
+    "/users/all": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get all users",
+        "description": "Retrieve a list of all users",
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/get/{user_id}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get user by ID",
+        "description": "Retrieve a specific user by their ID",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the user to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/create": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create a new user",
+        "description": "Create a new user with the provided details",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "User details to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "409": {
+            "description": "User already exists"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/update/{user_id}": {
+      "put": {
+        "tags": ["user"],
+        "summary": "Update an existing user",
+        "description": "Update an existing user by ID",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the user to update"
+          }
+        ],
+        "requestBody": {
+          "description": "User details to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/delete/{user_id}": {
+      "delete": {
+        "tags": ["user"],
+        "summary": "Delete a user",
+        "description": "Delete a user by ID",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the user to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/problems/all": {
+      "get": {
+        "tags": ["problem"],
+        "summary": "Get all problems",
+        "description": "Retrieve a list of all problems",
+        "operationId": "getAllProblems",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Problem"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/problems/add": {
+      "post": {
+        "tags": ["problem"],
+        "summary": "Add new problem",
+        "description": "Add a new problem with the provided details",
+        "operationId": "createProblem",
+        "requestBody": {
+          "description": "problems details to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Problem"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Problem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "409": {
+            "description": "User already exists"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/problems/get/{problem_id}": {
+      "get": {
+        "tags": ["problem"],
+        "summary": "Get problem by ID",
+        "description": "Retrieve a specific problem by their ID",
+        "operationId": "getProblemById",
+        "parameters": [
+          {
+            "name": "problem_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the user to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/problems/update/{problem_id}": {
+      "put": {
+        "tags": ["problem"],
+        "summary": "Update an existing problem",
+        "description": "Update an existing problem by ID",
+        "operationId": "updateProblem",
+        "parameters": [
+          {
+            "name": "problem_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the problem to update"
+          }
+        ],
+        "requestBody": {
+          "description": "Problem details to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Problem"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Problem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Problem updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Problem not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/problems/delete/{problem_id}": {
+      "delete": {
+        "tags": ["problem"],
+        "summary": "Delete a problem",
+        "description": "Delete a problem by ID",
+        "operationId": "deleteProblem",
+        "parameters": [
+          {
+            "name": "problem_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the problem to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Problem deleted successfully"
+          },
+          "404": {
+            "description": "Problem not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/solutions/add": {
+      "post": {
+        "tags": ["solution"],
+        "summary": "Add a new solution",
+        "description": "Add a new solution with the provided details",
+        "operationId": "createSolution",
+        "requestBody": {
+          "description": "Details of the solution to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Solution"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Solution created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/solutions/all": {
+      "get": {
+        "tags": ["solution"],
+        "summary": "Get all solutions",
+        "description": "Retrieve a list of all solutions",
+        "operationId": "getAllSolutions",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Solution"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/solutions/get/{solution_id}": {
+      "get": {
+        "tags": ["solution"],
+        "summary": "Get solution by ID",
+        "description": "Retrieve a specific solution by its ID",
+        "operationId": "getSolutionById",
+        "parameters": [
+          {
+            "name": "solution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the solution to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Solution"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Solution not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/solutions/update/{solution_id}": {
+      "put": {
+        "tags": ["solution"],
+        "summary": "Update an existing solution",
+        "description": "Update an existing solution by ID",
+        "operationId": "updateSolution",
+        "parameters": [
+          {
+            "name": "solution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the solution to update"
+          }
+        ],
+        "requestBody": {
+          "description": "Solution details to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Solution"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Solution updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Solution not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/solutions/delete/{solution_id}": {
+      "delete": {
+        "tags": ["solution"],
+        "summary": "Delete a solution",
+        "description": "Delete a solution by ID",
+        "operationId": "deleteSolution",
+        "parameters": [
+          {
+            "name": "solution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the solution to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solution deleted successfully"
+          },
+          "404": {
+            "description": "Solution not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "User login",
+        "description": "",
+        "operationId": "loginUser",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Username and password",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": ["username", "password"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "400": {
+            "description": "Request error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "User logout",
+        "description": "",
+        "operationId": "logoutUser",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Logout successful"
+          }
+        }
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Email verification",
+        "description": "",
+        "operationId": "verifyEmail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Verification token",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              },
+              "required": ["token"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email verification successful"
+          },
+          "400": {
+            "description": "Request error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "type_account": {
+            "type": "string",
+            "example": "startup"
+          },
+          "account_details": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "role": {
+            "type": "string",
+            "example": "admin"
+          }
+        },
+        "xml": {
+          "name": "account"
+        }
+      },
+      "Edit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          }
+        },
+        "xml": {
+          "name": "edit"
+        }
+      },
+      "Group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Developers"
+          },
+          "description": {
+            "type": "string",
+            "example": "A group for developers."
+          }
+        },
+        "xml": {
+          "name": "group"
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          }
+        },
+        "xml": {
+          "name": "notification"
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "description": {
+            "type": "string",
+            "example": "Administrator with full access"
+          }
+        },
+        "xml": {
+          "name": "role"
+        }
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "token": {
+            "type": "string",
+            "example": "abcdef123456"
+          },
+          "ip_address": {
+            "type": "string",
+            "example": "192.168.1.1"
+          },
+          "user_agent": {
+            "type": "string",
+            "example": "Mozilla/5.0"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-01T12:00:00Z"
+          },
+          "last_activity": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-01T13:00:00Z"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "xml": {
+          "name": "session"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "full_name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "cover": {
+            "type": "string",
+            "example": "cover.jpg"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@example.com"
+          },
+          "phone_number": {
+            "type": "string",
+            "example": "+1234567890"
+          },
+          "social_link": {
+            "type": "string",
+            "example": "http://linkedin.com/in/johndoe"
+          },
+          "password": {
+            "type": "string",
+            "example": "password123"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main St"
+          },
+          "city": {
+            "type": "string",
+            "example": "Anytown"
+          },
+          "country": {
+            "type": "string",
+            "example": "Country"
+          },
+          "profile_photo": {
+            "type": "string",
+            "example": "profile.jpg"
+          },
+          "bio": {
+            "type": "string",
+            "example": "Software engineer with 10 years of experience."
+          },
+          "activity_domain": {
+            "type": "string",
+            "example": "Software Development"
+          },
+          "notifications": {
+            "type": "boolean",
+            "example": true
+          },
+          "group": {
+            "type": "string",
+            "example": "Developers"
+          },
+          "work_title": {
+            "type": "string",
+            "example": "Senior Developer"
+          },
+          "website": {
+            "type": "string",
+            "example": "http://johndoe.com"
+          },
+          "language": {
+            "type": "string",
+            "example": "English"
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "Solution": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Innovative Solution"
+          },
+          "problem_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "account_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3
+          },
+          "description": {
+            "type": "string",
+            "example": "Detailed description of the solution."
+          },
+          "product_offered": {
+            "type": "string",
+            "example": "Product A"
+          },
+          "service_offered": {
+            "type": "string",
+            "example": "Service B"
+          },
+          "customer_expectations": {
+            "type": "string",
+            "example": "High quality"
+          },
+          "what_company_sells": {
+            "type": "string",
+            "example": "Software Solutions"
+          },
+          "how_product_service_marketed": {
+            "type": "string",
+            "example": "Online Marketing"
+          },
+          "customer_access_method": {
+            "type": "string",
+            "example": "Direct Sales"
+          },
+          "competitors": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "direct_sales": {
+            "type": "boolean",
+            "example": true
+          },
+          "direct_sales_details": {
+            "type": "string",
+            "example": "Details about direct sales."
+          },
+          "wholesale": {
+            "type": "boolean",
+            "example": true
+          },
+          "informal": {
+            "type": "boolean",
+            "example": false
+          },
+          "advertising": {
+            "type": "boolean",
+            "example": true
+          },
+          "direct_marketing": {
+            "type": "boolean",
+            "example": true
+          },
+          "sales_promotion": {
+            "type": "boolean",
+            "example": true
+          },
+          "display": {
+            "type": "boolean",
+            "example": true
+          },
+          "word_of_mouth": {
+            "type": "boolean",
+            "example": true
+          },
+          "trade_show": {
+            "type": "boolean",
+            "example": true
+          },
+          "mail_order": {
+            "type": "boolean",
+            "example": true
+          },
+          "human_resources": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "legal_form": {
+            "type": "string",
+            "example": "LLC"
+          },
+          "financing_needed": {
+            "type": "string",
+            "example": "100000"
+          },
+          "investment_characteristics": {
+            "type": "string",
+            "example": "High ROI"
+          },
+          "suppliers": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "float",
+            "example": 50000.0
+          },
+          "variable_cost": {
+            "type": "number",
+            "format": "float",
+            "example": 1000.0
+          },
+          "fixed_cost": {
+            "type": "number",
+            "format": "float",
+            "example": 500.0
+          },
+          "offers": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "quantity_sold": {
+            "type": "number",
+            "format": "float",
+            "example": 100.0
+          },
+          "revenue_generated": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "gross_margin": {
+            "type": "number",
+            "format": "float",
+            "example": 2000.0
+          },
+          "net_profit": {
+            "type": "number",
+            "format": "float",
+            "example": 1500.0
+          },
+          "cash": {
+            "type": "number",
+            "format": "float",
+            "example": 10000.0
+          },
+          "financing_need": {
+            "type": "string",
+            "example": "Details about financing need."
+          },
+          "financing_phase": {
+            "type": "string",
+            "example": "Seed"
+          },
+          "private_savings": {
+            "type": "boolean",
+            "example": true
+          },
+          "private_sphere_borrowing": {
+            "type": "boolean",
+            "example": true
+          },
+          "private_shareholders": {
+            "type": "boolean",
+            "example": true
+          },
+          "startup_sponsors": {
+            "type": "boolean",
+            "example": true
+          },
+          "business_agents": {
+            "type": "boolean",
+            "example": true
+          },
+          "incubator_nursery": {
+            "type": "boolean",
+            "example": true
+          },
+          "mixed_capital": {
+            "type": "boolean",
+            "example": true
+          },
+          "bank_credit": {
+            "type": "boolean",
+            "example": true
+          },
+          "startup_launch_credit": {
+            "type": "boolean",
+            "example": true
+          },
+          "mezzanine_financing": {
+            "type": "boolean",
+            "example": true
+          },
+          "business_creation_aid_program": {
+            "type": "boolean",
+            "example": true
+          },
+          "startup_contests": {
+            "type": "boolean",
+            "example": true
+          },
+          "crowdfunding": {
+            "type": "boolean",
+            "example": true
+          },
+          "crowd_investing": {
+            "type": "boolean",
+            "example": true
+          },
+          "crowd_lending": {
+            "type": "boolean",
+            "example": true
+          },
+          "remuneration_type": {
+            "type": "string",
+            "example": "Equity"
+          },
+          "impactful_introduction": {
+            "type": "string",
+            "example": "This is an impactful introduction."
+          },
+          "specific_problem_addressing": {
+            "type": "string",
+            "example": "This addresses a specific problem."
+          },
+          "innovative_solution_proposal": {
+            "type": "string",
+            "example": "This is an innovative solution proposal."
+          },
+          "team_presentation": {
+            "type": "string",
+            "example": "This is a team presentation."
+          },
+          "startup_costs_explanation": {
+            "type": "string",
+            "example": "This explains startup costs."
+          },
+          "necessary_capital_explanation": {
+            "type": "string",
+            "example": "This explains the necessary capital."
+          },
+          "expected_revenue_explanation": {
+            "type": "string",
+            "example": "This explains expected revenue."
+          },
+          "investment_return_demonstration": {
+            "type": "string",
+            "example": "This demonstrates the investment return."
+          },
+          "investment_repayment": {
+            "type": "string",
+            "example": "This explains investment repayment."
+          },
+          "periodic_profit_percentage": {
+            "type": "string",
+            "example": "This explains periodic profit percentage."
+          },
+          "economic_structural_transformation": {
+            "type": "string",
+            "example": "This explains economic structural transformation."
+          },
+          "capital_wellbeing_development": {
+            "type": "string",
+            "example": "This explains capital wellbeing development."
+          },
+          "employment_promotion_economic_insertion": {
+            "type": "string",
+            "example": "This explains employment promotion and economic insertion."
+          },
+          "governance_decentralization_strategic_state_management": {
+            "type": "string",
+            "example": "This explains governance decentralization and strategic state management."
+          }
+        },
+        "xml": {
+          "name": "solution"
+        }
+      },
+      "Problem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "account_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "title": {
+            "type": "string",
+            "example": "Problem Title"
+          },
+          "activity_requiring_improvement": {
+            "type": "string",
+            "example": "Activity requiring improvement."
+          },
+          "affected_population": {
+            "type": "string",
+            "example": "Affected population."
+          },
+          "concerns_of_affected_population": {
+            "type": "string",
+            "example": "Concerns of affected population."
+          },
+          "impact_on_affected_population": {
+            "type": "string",
+            "example": "Impact on affected population."
+          },
+          "quantitative_volume_affected_population": {
+            "type": "integer",
+            "example": 1000
+          }
+        },
+        "xml": {
+          "name": "problem"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# Fichiers Python compilés
+*.pyc
+__pycache__/
+
+# Fichiers de cache
+.cache/
+
+# Fichiers de configuration de l'environnement virtuel
+venv/
+.env
+
+# Fichiers de base de données
+*.db
+
+# Dossiers de compilation
+*.egg-info/
+dist/
+build/
