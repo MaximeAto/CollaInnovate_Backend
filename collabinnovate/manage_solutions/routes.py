@@ -288,6 +288,7 @@ def get_all_usersolution(id):
             
         
             problems_query = Problem.query.filter_by(user_id = user.id).all() 
+            problems_list = [problem.to_dict() for problem in problems_query]
             if problems_query :
                 for problem in problems_query:
                     solutionByProblem_query = Solution.query.filter_by(problem_id = problem.id).all()
@@ -295,7 +296,7 @@ def get_all_usersolution(id):
                         solutions = [solution.to_dict() for solution in solutionByProblem_query]
                         for solution in solutions:
                             allsolution.append(solution)
-                return jsonify(allsolution), 200
+                return jsonify({'problems': problems_list, 'solutions' : list(allsolution), 'user_id': user.id}), 200
         else:
             return jsonify({'message': "user not found"}), 404
     except SQLAlchemyError as e:
