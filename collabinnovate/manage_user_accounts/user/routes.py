@@ -38,6 +38,7 @@ def hundred_users():
       
     user = User(
       full_name=fake.name(),
+      username=fake.user_name(),
       role_id = 1,
       email=fake.email(),
       phone_number=fake.phone_number(),
@@ -83,7 +84,7 @@ def create_user():
     data = request.form
 
     # Vérification que tous les attributs sont présents
-    required_attributes = ['full_name', 'email', 'password']
+    required_attributes = ['username','full_name', 'email', 'password']
     for attribute in required_attributes:
       if attribute not in data or not data[attribute]:
         return jsonify({'message': f'Missing or empty value for {attribute}.'}), 400
@@ -109,10 +110,13 @@ def create_user():
 
     # Création d'un nouvel utilisateur
     new_user = User(
+      username=data.get('username'),
       full_name=data.get('full_name'),
       email=data['email'],
       phone_number=data.get('phone_number'),
       password=hashed_password,
+      role_id = 1,
+      group_id = 1,
     )
 
     codeping = generer_code_pin()
@@ -139,7 +143,7 @@ def create_user():
 
     create_session(new_user.id,token)
 
-    return jsonify({"token": token, "ping": codeping, "email": data['email'] }),200
+    return jsonify({"token": token, "ping": codeping, "email": data['email'],"username": data['username'] }),200
   except Exception as e:
     return jsonify({'message': f'An error occured'}), 500
   

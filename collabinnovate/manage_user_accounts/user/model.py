@@ -5,6 +5,7 @@ class User(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)
   group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+  username = db.Column(db.String(100),unique=True, nullable=False)
   full_name = db.Column(db.String(100))
   cover = db.Column(db.String(100))
   email = db.Column(db.String(100), unique=True, nullable=False)

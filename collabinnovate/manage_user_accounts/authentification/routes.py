@@ -81,12 +81,12 @@ def login():
         # Vérification si l'utilisateur existe
         user = User.query.filter_by(email=username).first()
         if not user:
-            return jsonify({'message' :'User not found.'})
+            return jsonify({'message' :'User not found.'}), 404
             
 
         # Vérification du mot de passe
         if not check_password_hash(user.password, password):
-            return jsonify({'message' :'Incorrect password.'})
+            return jsonify({'message' :'Incorrect password.'}),400
 
         # Authentification réussie
     
@@ -112,10 +112,7 @@ def login():
             db.session.add(new_session)
             db.session.commit()
 
-        return jsonify({'email': username}), 200
-
-    except ValueError as e:
-        return jsonify({'message': str(e)}), 400
+        return jsonify({'email': username, 'username':user.username}), 200
     except Exception as e:
         return jsonify({'message': 'An error occurred.', 'error': str(e)}), 500
 
