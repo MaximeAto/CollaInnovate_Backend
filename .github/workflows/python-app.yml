@@ -48,7 +48,8 @@ jobs:
 
   sonarQube:
     runs-on: ubuntu-latest
-
+    needs: build
+  
     steps:
       - uses: actions/checkout@v4
       
@@ -57,7 +58,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
+  
+      - name: Verify Java version
+        run: java -version  # Vérifiez que la bonne version de Java est utilisée
+  
       - name: Install SonarScanner
         run: |
           wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
@@ -65,7 +69,7 @@ jobs:
           export PATH="$HOME/.sonar/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
           echo "SonarScanner installed in $HOME/.sonar/sonar-scanner-4.6.2.2472-linux/"
           sonar-scanner -v  # Vérifier que SonarScanner est bien installé
-
+  
       - name: Run SonarQube scan
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
