@@ -48,7 +48,7 @@ jobs:
 
   sonarQube:
     runs-on: ubuntu-latest
-  
+
     steps:
       - uses: actions/checkout@v4
       
@@ -56,24 +56,27 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'temurin'  # Ajout de la distribution
-  
+          distribution: 'temurin'
+
       - name: Install SonarScanner
         run: |
           wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
           unzip sonar-scanner.zip -d $HOME/.sonar
           export PATH="$HOME/.sonar/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
-          echo "$PATH"  # Vérifier que le PATH est mis à jour
-          sonar-scanner -v  # Vérifier que SonarScanner est accessible
-  
+          echo "SonarScanner installed in $HOME/.sonar/sonar-scanner-4.6.2.2472-linux/"
+          ls -alh $HOME/.sonar/sonar-scanner-4.6.2.2472-linux/bin/
+          echo "PATH after installation: $PATH"
+          sonar-scanner -v  # Vérifier que SonarScanner est bien installé
+
       - name: Run SonarQube scan
         env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # URL du serveur SonarQube ou SonarCloud
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Le token d'accès SonarQube ou SonarCloud
-          PATH: "$HOME/.sonar/sonar-scanner-4.6.2.2472-linux/bin:$PATH"  # Assurez-vous que le chemin est inclus
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          PATH: "$HOME/.sonar/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
         run: |
-          sonar-scanner \
+          $HOME/.sonar/sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner \
           -Dsonar.projectKey=MaximeAto_CollaInnovate_Backend:maximeato \
           -Dsonar.sources=. \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
