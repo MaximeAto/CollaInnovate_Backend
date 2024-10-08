@@ -75,4 +75,5 @@ jobs:
           -Dsonar.projectKey=MaximeAto_CollaInnovate_Backend:maximeato \
           -Dsonar.sources=. \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -X
