@@ -70,7 +70,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Le token d'accès SonarQube ou SonarCloud
         run: |
           sonar-scanner \
-          -Dsonar.projectKey=mon_projet_key \
+          -Dsonar.projectKey=MaximeAto_CollaInnovate_Backend:maximeato \
           -Dsonar.sources=. \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
