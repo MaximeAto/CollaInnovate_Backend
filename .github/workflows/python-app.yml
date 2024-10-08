@@ -55,7 +55,7 @@ jobs:
       - name: Set up Java (SonarQube requires Java)
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Install SonarScanner
