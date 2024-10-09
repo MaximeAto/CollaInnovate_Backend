@@ -53,10 +53,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
     
-      - name: Set up Java 17
+      - name: Set up Java 11
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '11'
           distribution: 'temurin'
     
       - name: Install SonarScanner
@@ -75,7 +75,6 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          export JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64
           sonar-scanner \
           -Dsonar.projectKey=MaximeAto_CollaInnovate_Backend:maximeato \
           -Dsonar.sources=. \
