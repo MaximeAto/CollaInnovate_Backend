@@ -1,0 +1,9 @@
+{
+    "version" : 2,
+    "build" : [
+        {"src" : "app.py", "user" : "@versel/python"}
+    ],
+    "routes":[
+        {"src":"/(.*)","dest":"app.py"}
+    ]
+}
