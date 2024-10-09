@@ -29,7 +29,7 @@ class LogginFormatter(logging.Formatter):
 class Role(db.Model):
   __tablename__ = "role"
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-  name = db.Column(db.String(5), unique=True, nullable=False)
+  name = db.Column(db.String(20), unique=True, nullable=False)
   description = db.Column(db.Text)
 
   users = db.relationship('User', backref='role')
@@ -37,7 +37,7 @@ class Role(db.Model):
 class Group(db.Model):
   __tablename__ = "group"
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-  name = db.Column(db.String(5), nullable=False)
+  name = db.Column(db.String(20), nullable=False)
   description = db.Column(db.Text)
 
   users = db.relationship('User', backref='group')
