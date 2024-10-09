@@ -63,19 +63,21 @@ jobs:
         run: |
           wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
           unzip sonar-scanner.zip -d $HOME/.sonar
-          export PATH="$HOME/.sonar/sonar-scanner-4.9.0.2959-linux/bin:$PATH"
-          echo "SonarScanner installed in $HOME/.sonar/sonar-scanner-4.9.0.2959-linux/"
-          sonar-scanner -v
+          export PATH="$HOME/.sonar/sonar-scanner-4.8.0.2856-linux/bin:$PATH"
+          echo "SonarScanner installed in $HOME/.sonar/sonar-scanner-4.8.0.2856-linux/"
+          echo $PATH  # Affiche le PATH pour vérifier
+          sonar-scanner -v  # Vérifie que sonar-scanner est accessible
     
       - name: Run SonarQube scan
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          $HOME/.sonar/sonar-scanner-4.9.0.2959-linux/bin/sonar-scanner \
+          sonar-scanner \
           -Dsonar.projectKey=MaximeAto_CollaInnovate_Backend:maximeato \
           -Dsonar.sources=. \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
           -X
+
   
