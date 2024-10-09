@@ -241,44 +241,5 @@ def update_account_groups(account_id):
 
 
 
-# # Route pour envoyer une invitation pour un compte par ID
-# @accounts.route('/account/<int:account_id>/invitations', methods=['POST'])
-# def send_account_invitation(account_id):
-#     try:
-#         data = request.json
-#         if 'recipient_email' not in data:
-#             return jsonify({'message': 'Recipient email is required.'}), 400
-        
-#         # Vérifier si le compte existe
-#         account = Account.query.get(account_id)
-#         if not account:
-#             return jsonify({'message': 'Account not found.'}), 404
-        
-#         # Implémenter la logique pour envoyer une invitation pour un compte
-#         invitation = Invitation(sender_id=account.user_id, recipient_email=data['recipient_email'], account_id=account_id)
-#         db.session.add(invitation)
-#         db.session.commit()
-        
-#         return jsonify({'message': 'Invitation sent successfully.'}), 200
-#     except Exception as e:
-#         return jsonify({'message': 'Failed to send account invitation.', 'error': str(e)}), 500
 
 
-
-
-# # Route pour annuler une invitation pour un compte par ID et ID d'invitation
-# @accounts.route('/account/<int:account_id>/invitations/<int:invitation_id>', methods=['DELETE'])
-# def cancel_account_invitation(account_id, invitation_id):
-#     try:
-#         # Vérifier si l'invitation et le compte associé existent
-#         invitation = Invitation.query.filter_by(id=invitation_id, account_id=account_id).first()
-#         if not invitation:
-#             return jsonify({'message': 'Invitation not found.'}), 404
-        
-#         # Implémenter la logique pour annuler une invitation pour un compte
-#         db.session.delete(invitation)
-#         db.session.commit()
-        
-#         return jsonify({'message': 'Invitation canceled successfully.'}), 200
-#     except Exception as e:
-#         return jsonify({'message': 'Failed to cancel account invitation.', 'error': str(e)}), 500
