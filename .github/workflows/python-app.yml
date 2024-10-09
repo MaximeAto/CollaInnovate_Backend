@@ -1,4 +1,4 @@
-name: CollabInnovate Backend-SonarQube
+name: CollabInnovate Backend pipeline
 
 on:
   push:
