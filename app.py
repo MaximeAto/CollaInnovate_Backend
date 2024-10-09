@@ -9,4 +9,4 @@ app = create_app()
 @app.route('/', methods=['GET'])
 def root():
     return jsonify({"message": "good job"})
-app.run(debug=True)
+app.run(host='0.0.0.0', port=5000)
