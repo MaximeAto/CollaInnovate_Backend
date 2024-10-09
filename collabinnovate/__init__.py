@@ -2,6 +2,7 @@ from flask import Flask, request, has_request_context
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
+from collabinnovate import config
 from collabinnovate.config import *
 from flask_migrate import Migrate
 from flask_mail import Mail
@@ -70,11 +71,11 @@ def create_app(config_class=None):
         app.config.from_object(config_class)
     else:
         # Utilisation de la configuration définie dans le fichier de config
-        app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{config.SQL_CONNEXION['user']}:" \
-                                                f"{config.SQL_CONNEXION['password']}@" \
-                                                f"{config.SQL_CONNEXION['host']}:" \
-                                                f"{config.SQL_CONNEXION['port']}/" \
-                                                f"{config.SQL_CONNEXION['database']}"
+        app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{config.DISTANT_DB_CONNEXION['user']}:" \
+                                                f"{config.DISTANT_DB_CONNEXION['password']}@" \
+                                                f"{config.DISTANT_DB_CONNEXION['host']}:" \
+                                                f"{config.DISTANT_DB_CONNEXION['port']}/" \
+                                                f"{config.DISTANT_DB_CONNEXION['database']}"
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config.from_object(config)
 

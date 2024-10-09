@@ -19,10 +19,10 @@ DISTANT_DB_CONNEXION_POSTGRESQL = {
 }
 
 DISTANT_DB_CONNEXION = {
-    'host': 'collabinnovatedb.chkwyqi0uadk.eu-north-1.rds.amazonaws.com',
-    'user': 'admin',
-    'password': '1A2Z3E4R5T#',
-    'database': 'mercatodb',
+    'host': 'bllkz2rubsr6lxqhlttx-mysql.services.clever-cloud.com',
+    'user': 'usbqefhqtsll6nh6',
+    'password': 'AbOmXp99etO4zgXBZxH9',
+    'database': 'bllkz2rubsr6lxqhlttx',
     'port': '3306'
 }
 
