@@ -74,10 +74,11 @@ jobs:
             -Dsonar.projectKey=MaximeAto_CollaInnovate_Backend
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.sources=lib/
+            -Dsonar.sources=$GITHUB_WORKSPACE
             -Dsonar.test.exclusions=tests/**
             -Dsonar.tests=tests/
             -Dsonar.verbose=true
+            -X
     
       # - name: SonarCloud Scan
       #   env:
