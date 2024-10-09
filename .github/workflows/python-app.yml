@@ -53,11 +53,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
   
-      - name: Clear Java cache
-        run: |
-          sudo rm -rf /usr/local/java
-          sudo rm -rf ~/.m2/repository  # Si vous utilisez Maven (en option)
-  
+      - name: Cache Java
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-v1
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Set up Java (SonarQube requires Java)
         uses: actions/setup-java@v3
         with:
@@ -65,7 +68,7 @@ jobs:
           distribution: 'temurin'
   
       - name: Verify Java version
-        run: java -version  # Vérifiez que la bonne version de Java est utilisée
+        run: java -version
   
       - name: Install SonarScanner
         run: |
@@ -73,7 +76,7 @@ jobs:
           unzip sonar-scanner.zip -d $HOME/.sonar
           export PATH="$HOME/.sonar/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
           echo "SonarScanner installed in $HOME/.sonar/sonar-scanner-4.6.2.2472-linux/"
-          sonar-scanner -v  # Vérifier que SonarScanner est bien installé
+          sonar-scanner -v
   
       - name: Run SonarQube scan
         env:
