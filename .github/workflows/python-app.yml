@@ -1,14 +1,11 @@
 name: CollabInnovate Backend pipeline
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 permissions:
   contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,12 +14,10 @@ jobs:
         python-version: [3.12.3]
     steps:
       - uses: actions/checkout@v4
-      
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
-
       - name: Cache Python dependencies
         uses: actions/cache@v3
         with:
@@ -42,6 +37,7 @@ jobs:
       - name: Test with pytest and coverage
         run: |
           pytest --cov=CollaInnovate_Backend
+          
   sonarcloud:
     runs-on: ubuntu-latest
     needs: build
