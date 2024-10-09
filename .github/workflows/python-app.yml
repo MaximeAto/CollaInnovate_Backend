@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Cache dependencies
+      - name: Cache Python dependencies
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
@@ -52,6 +52,11 @@ jobs:
   
     steps:
       - uses: actions/checkout@v4
+  
+      - name: Clear Java cache
+        run: |
+          sudo rm -rf /usr/local/java
+          sudo rm -rf ~/.m2/repository  # Si vous utilisez Maven (en option)
   
       - name: Set up Java (SonarQube requires Java)
         uses: actions/setup-java@v3
