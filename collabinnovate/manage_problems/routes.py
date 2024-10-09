@@ -90,7 +90,7 @@ def create_problem(username):
         if field not in data:
             return jsonify({"error": f"Missing required field: {field}"}), 400
     
-    try:
+    # try:
         # Convertir la deadline en date (sans l'heure)
         deadline = datetime.strptime(data['deadline'], '%Y-%m-%d').date()
         
@@ -110,11 +110,11 @@ def create_problem(username):
         db.session.add(new_problem)
         db.session.commit()
         return jsonify({"message": "The problem has been added with success", "id": new_problem.id}), 201
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        return jsonify({"message": "Registration error"}), 400
-    except ValueError as e:
-        return jsonify({"message": "Registration error"}), 500
+    # except SQLAlchemyError as e:
+    #     db.session.rollback()
+    #     return jsonify({"message": "Registration error"}), 400
+    # except ValueError as e:
+    #     return jsonify({"message": "Registration error"}), 500
     
 
 @problems.route("/all/<email>", methods=["GET"])
@@ -153,7 +153,7 @@ def update_problem(id):
   data = request.get_json()
   problem = Problem.query.get_or_404(id)
   try:
-      problem.account_id = data.get('account_id', problem.account_id)
+      problem.user_id = data.get('user_id', problem.user_id)
       problem.title = data.get('title', problem.title)
       problem.activity_requiring_improvement = data.get('activity_requiring_improvement', problem.activity_requiring_improvement)
       problem.affected_population = data.get('affected_population', problem.affected_population)
@@ -162,7 +162,7 @@ def update_problem(id):
       problem.quantitative_volume_affected_population = data.get('quantitative_volume_affected_population', problem.quantitative_volume_affected_population)
       
       db.session.commit()
-      return jsonify(problem.to_dict()), 200
+      return jsonify(problem.to_dict()), 201
   except SQLAlchemyError as e:
       db.session.rollback()
       abort(400, description=str(e))

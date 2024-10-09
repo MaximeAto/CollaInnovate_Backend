@@ -7,7 +7,7 @@ import string
 from flask import Blueprint, jsonify, make_response, request
 import jwt
 from collabinnovate import db
-from collabinnovate.config import SECRET_JWT_KEY
+from collabinnovate.config import Config
 from collabinnovate.manage_user_accounts.notification.utils import confirmation_mail
 from collabinnovate.manage_user_accounts.session.model import Session
 from collabinnovate.manage_user_accounts.session.utils import *
@@ -44,7 +44,7 @@ def confirmMail(codeping, email):
             return jsonify({'message': 'Session not found'}), 404
 
         try:
-            decoded_token = jwt.decode(usersession.token, SECRET_JWT_KEY, algorithms=['HS256'])
+            decoded_token = jwt.decode(usersession.token, Config.SECRET_JWT_KEY, algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
             return jsonify({'message': 'Expired token'}), 401
         except jwt.InvalidTokenError:
@@ -147,7 +147,7 @@ def refresh_token(email):
       'user_id': email,
       'exp': datetime.utcnow() + timedelta(hours=1)
     }
-    token = jwt.encode(token_payload, SECRET_JWT_KEY, algorithm='HS256')
+    token = jwt.encode(token_payload, Config.SECRET_JWT_KEY, algorithm='HS256')
     return token
 
 def month_refresh_token(email):
@@ -155,7 +155,7 @@ def month_refresh_token(email):
       'user_id': email,
       'exp': datetime.utcnow() + timedelta(days=30)
     }
-    token = jwt.encode(token_payload, SECRET_JWT_KEY, algorithm='HS256')
+    token = jwt.encode(token_payload, Config.SECRET_JWT_KEY, algorithm='HS256')
     return token
 
 def generer_code_pin():
@@ -167,7 +167,7 @@ def generate_token(email, codeping):
       'codeping':codeping,
       'exp': datetime.utcnow() + timedelta(hours=1)
     }
-    token = jwt.encode(token_payload, SECRET_JWT_KEY, algorithm='HS256')
+    token = jwt.encode(token_payload,  Config.SECRET_JWT_KEY, algorithm='HS256')
 
     return token
 
