@@ -5,8 +5,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 app = create_app()
 
-if __name__ == '__main__':
-  @app.route('/', methods=['GET'])
-  def root():
-      return jsonify({"message": "good job"})
-  app.run(debug=True)
+
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({"message": "good job"})
+app.run(debug=True)
