@@ -61,7 +61,7 @@ jobs:
     
       - name: Install SonarScanner
         run: |
-          wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.9.0.2959-linux.zip
+          wget -O sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
           unzip sonar-scanner.zip -d $HOME/.sonar
           export PATH="$HOME/.sonar/sonar-scanner-4.9.0.2959-linux/bin:$PATH"
           echo "SonarScanner installed in $HOME/.sonar/sonar-scanner-4.9.0.2959-linux/"
