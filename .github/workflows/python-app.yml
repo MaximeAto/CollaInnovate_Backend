@@ -10,28 +10,19 @@ permissions:
   contents: read
 
 jobs:
-  checkout:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-  setup-python:
-    runs-on: ubuntu-latest
-    needs: checkout
     strategy:
       matrix:
         python-version: [3.12.3]
     steps:
+      - uses: actions/checkout@v4
+      
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
 
-  install-dependencies:
-    runs-on: ubuntu-latest
-    needs: setup-python
-    steps:
       - name: Cache Python dependencies
         uses: actions/cache@v3
         with:
@@ -39,29 +30,50 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install flake8 pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: install-dependencies
-    steps:
       - name: Lint with flake8
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-  test:
-    runs-on: ubuntu-latest
-    needs: install-dependencies
-    steps:
       - name: Test with pytest and coverage
         run: |
           pytest --cov=CollaInnovate_Backend
+  sonarcloud:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for SonarCloud analysis
+
+      # Set up Java (if needed, uncomment)
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # SonarCloud action to perform analysis
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v2.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=maximeato
+            -Dsonar.projectKey=MaximeAto_CollaInnovate_Backend
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=lib/
+            -Dsonar.test.exclusions=tests/**
+            -Dsonar.tests=tests/
+            -Dsonar.verbose=true
 
 
   # sonarcloud:
